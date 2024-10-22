@@ -9,15 +9,17 @@ export const UserDetails: FC<UserDetailsProps> = ({
   selectedUser,
   closeModal,
 }) => {
-
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
   };
-  
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50"   onClick={handleOverlayClick}>
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50"
+      onClick={handleOverlayClick}
+    >
       <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6">
         <div className="flex">
           <h2 className="text-xl font-semibold mb-4 text-black flex-1">

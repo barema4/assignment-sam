@@ -12,7 +12,13 @@ import {
 } from "@/components/ui/table";
 import { isValidEmail, useDebounce } from "@/lib/utils";
 import { useUsers } from "@/services/use-users";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { User } from "@/schemas/user";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { LoadingSpiner } from "@/components/ui/LoadingSpiner";
@@ -21,12 +27,17 @@ import { AddUserInfo } from "@/components/ui/AddUserModal";
 
 export const UsersTable = () => {
   const [results, setResults] = useState<User[]>([]);
-  const [text, setText] = useState("");
+  const [text, setText] = useState<string>("");
   const debouncedValue = useDebounce(text, 300);
-  const [loadingResults, setLoadingResults] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [addUser, setAddUser] = useState(false);
+  const [loadingResults, setLoadingResults] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedUser, setSelectedUser] = useState<null | {
+    id: number;
+    name: string;
+    username: string;
+    email: string;
+  }>(null);
+  const [addUser, setAddUser] = useState<boolean>(false);
 
   const { users, loading, error, setUser } = useUsers();
 
@@ -78,7 +89,9 @@ export const UsersTable = () => {
     return <div>{error}</div>;
   }
 
-  const openModal = (user: any) => {
+  const openModal = (
+    user: { id: number; name: string; username: string; email: string } | null
+  ) => {
     setSelectedUser(user);
     setIsOpen(true);
   };
@@ -94,30 +107,28 @@ export const UsersTable = () => {
 
   const closeAddUserModal = () => {
     setAddUser(false);
-  }
+  };
 
   return (
     <>
       <div className="flex items-center space-x-4">
+        <div className="flex-1">
+          <SearchInput
+            handleClear={handleClear}
+            handleSearchChange={handleSearchChange}
+            text={text}
+          />
+        </div>
 
-  <div className="flex-1">
-    <SearchInput
-      handleClear={handleClear}
-      handleSearchChange={handleSearchChange}
-      text={text}
-    />
-  </div>
-
- 
-  <div>
-    <button
-      onClick={openAddUserModal}
-      className="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600"
-    >
-      Add User
-    </button>
-  </div>
-</div>
+        <div>
+          <button
+            onClick={openAddUserModal}
+            className="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600"
+          >
+            Add User
+          </button>
+        </div>
+      </div>
 
       {noResults ? <p className="mt-2">No users found</p> : null}
       {loadingResults && <LoadingSpiner />}
@@ -160,7 +171,7 @@ export const UsersTable = () => {
         <UserDetails selectedUser={selectedUser} closeModal={closeModal} />
       )}
       {addUser && (
-        <AddUserInfo  closeModal={closeAddUserModal} addUser={setUser}/>
+        <AddUserInfo closeModal={closeAddUserModal} addUser={setUser} />
       )}
     </>
   );

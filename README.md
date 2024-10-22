@@ -1,12 +1,14 @@
 ## Getting Started
 
-1. Go to the repository on GitHub and click the "Fork" button.
+```
+Clone the respository and checkout the branch ft-search-implementation
+```
 
-Then, clone your forked repository:
+## Install depedencies
 
-```bash
-git clone <https://github.com/In2Event/assignment-sam.git>
-cd <assignment-sam>
+```
+Run yarn or npm install
+
 ```
 
 Then, run the development server:
@@ -21,14 +23,3 @@ pnpm dev
 bun dev
 ```
 
-For more information on what to do, read `docs/assignment.md`.
-
-## Tech Stack (In2event)
-
-- **Framework**: Next.js (React)
-- **Language**: TypeScript
-- **Styling**: TailwindCSS
-- **Form Validation**: Zod
-- **Form Handling**: React Hook Form
-- **Table Management**: [TanStack Table](https://tanstack.com/table)
-- **Data Fetching**: [TanStack Query](https://tanstack.com/query)
