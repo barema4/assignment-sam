@@ -6,6 +6,10 @@ const useUsers = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const setUser = (user: Partial<User>) => {
+    setUsers((prev) => ([...prev, {...user, id: prev.length + 1} as User]));
+  }
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -27,7 +31,7 @@ const useUsers = () => {
     fetchUsers();
   }, []);
 
-  return { users, loading, error };
+  return { users, loading, error, setUser };
 };
 
 export { useUsers };
